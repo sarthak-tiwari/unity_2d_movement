@@ -12,6 +12,8 @@ public class ChatController : MonoBehaviour {
 
     public Scrollbar ChatScrollbar;
 
+    public PythonManager pythonManager;
+
     void OnEnable()
     {
         TMP_ChatInput.onSubmit.AddListener(AddToChatOutput);
@@ -30,11 +32,30 @@ public class ChatController : MonoBehaviour {
         // Clear Input Field
         TMP_ChatInput.text = string.Empty;
 
-        var timeNow = System.DateTime.Now;
+        //var timeNow = System.DateTime.Now;
 
         TMP_ChatOutput.text +=  ">> " + newText + "\n";
 
         TMP_ChatInput.ActivateInputField();
+
+        // Set the scrollbar to the bottom when next text is submitted.
+        ChatScrollbar.value = 0;
+
+        pythonManager.testCompiler();
+
+    }
+
+    public void AddCompilerOutput(string newText)
+    {
+        // Clear Input Field
+        TMP_ChatInput.text = string.Empty;
+
+        //var timeNow = System.DateTime.Now;
+
+        TMP_ChatOutput.text += ">> " + newText + "\n";
+
+        //Don't uncomment, hangs the editor on run
+        //TMP_ChatInput.ActivateInputField();
 
         // Set the scrollbar to the bottom when next text is submitted.
         ChatScrollbar.value = 0;
