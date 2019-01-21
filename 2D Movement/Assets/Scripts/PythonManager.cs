@@ -8,14 +8,14 @@ public class PythonManager : MonoBehaviour
 {
     public ChatController chatController;
 
-    private string COMPILER_PATH = "D:\\Unity\\Python_Movement_Compiler\\test.py";
+    private string COMPILER_PATH = "D:\\Unity\\Python_Movement_Compiler\\Planner.py";
 
-    public void testCompiler()
+    public void testCompiler(string command)
     {
         using (Process otherProcess = new Process())
         {
             otherProcess.StartInfo.FileName = "python";
-            otherProcess.StartInfo.Arguments = COMPILER_PATH;
+            otherProcess.StartInfo.Arguments = COMPILER_PATH + " \"" + command + "\"";
             otherProcess.StartInfo.CreateNoWindow = true;
             otherProcess.StartInfo.UseShellExecute = false;
             otherProcess.StartInfo.RedirectStandardInput = true;

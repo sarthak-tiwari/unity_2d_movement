@@ -20,9 +20,12 @@ class TokenManager:
     FUNCTION_DICTIONARY = { 'MOVE': 'move_bot' }
     DIRECTION_WORDS_DICTIONARY = { 'FORWARD': 'fwd', 'BACK': 'bck', 'LEFT': 'lft', 'RIGHT': 'rght'}
 
-    POS_TYPE_TO_SYSTEM_TYPE_DICTIONARY = { 'NN': 'FUNCTION_DICTIONARY',
-                                              'VB': 'FUNCTION_DICTIONARY',
-                                              'RB': 'DIRECTION_WORDS_DICTIONARY' }
+    DICTIONARY_NAMES = ['FUNCTION_DICTIONARY', 'DIRECTION_WORDS_DICTIONARY']
+
+    # to be used when valid pos tags will be coming in future
+    # POS_TYPE_TO_SYSTEM_TYPE_DICTIONARY = { 'NN': 'FUNCTION_DICTIONARY',
+                                            #   'VBD': 'DIRECTION_WORDS_DICTIONARY',
+                                            #   'RB': 'DIRECTION_WORDS_DICTIONARY' }
     
     @staticmethod
     def getTokenInformation(token, tokenPOSType):
@@ -32,8 +35,16 @@ class TokenManager:
         token_translation = None
 
         try:
-            dictionary_name = TokenManager.POS_TYPE_TO_SYSTEM_TYPE_DICTIONARY[tokenPOSType.upper()]
-        except Exception as err:
+            # to be used when valid pos tags will be coming in future
+            # dictionary_name = TokenManager.POS_TYPE_TO_SYSTEM_TYPE_DICTIONARY[tokenPOSType.upper()]
+            dictionary_name = None
+            for dict_name in TokenManager.DICTIONARY_NAMES:
+                dictionary_to_use = getattr(TokenManager, dict_name)
+                if(token.upper() in dictionary_to_use):
+                    dictionary_name = dict_name
+                    break
+
+        except Exception:
             dictionary_name = None
 
         if(dictionary_name is None):
@@ -47,12 +58,14 @@ class TokenManager:
             else:
                 token_type = TokenType.PARAMETER
 
+
             dictionary_to_use = getattr(TokenManager, dictionary_name)
 
             try:
                 token_translation = dictionary_to_use[token.upper()]
-            except Exception as err:
+            except Exception:
                 token_translation = None
+                token_type = TokenType.UNDEFINED
 
             tokenInformation = TokenInformationData(token_type = token_type,
                                                 token_value = token,

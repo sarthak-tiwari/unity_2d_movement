@@ -41,7 +41,7 @@ public class ChatController : MonoBehaviour {
         // Set the scrollbar to the bottom when next text is submitted.
         ChatScrollbar.value = 0;
 
-        pythonManager.testCompiler();
+        pythonManager.testCompiler(newText);
 
     }
 
