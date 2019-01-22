@@ -7,6 +7,7 @@ using UnityEngine;
 public class PythonManager : MonoBehaviour
 {
     public ChatController chatController;
+    public CommandExecutor commExec;
 
     private string COMPILER_PATH = "D:\\Unity\\Python_Movement_Compiler\\Planner.py";
 
@@ -26,6 +27,7 @@ public class PythonManager : MonoBehaviour
                 // Prepend line numbers to each line of the output.
                 if (!String.IsNullOrEmpty(e.Data))
                 {
+                    commExec.addCommand(e.Data);
                     chatController.AddCompilerOutput(e.Data);
                     //output.Append("\n[" + lineCount + "]: " + e.Data);
                 }

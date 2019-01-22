@@ -472,6 +472,7 @@ GameObject:
   m_Component:
   - component: {fileID: 489527294}
   - component: {fileID: 489527293}
+  - component: {fileID: 489527295}
   m_Layer: 0
   m_Name: CompilerPlaceHolder
   m_TagString: Untagged
@@ -492,6 +493,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chatController: {fileID: 1185821889}
+  commExec: {fileID: 489527295}
 --- !u!4 &489527294
 Transform:
   m_ObjectHideFlags: 0
@@ -506,6 +508,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &489527295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 489527292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e31f31ba1e158b442ad50f60e434fe8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movCon: {fileID: 1708772322}
 --- !u!1 &549637529
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,6 +686,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b44dd354d8bd97640b7ffef304dd604a, type: 3}
+--- !u!114 &1708772322 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114299280038301100, guid: b44dd354d8bd97640b7ffef304dd604a,
+    type: 3}
+  m_PrefabInstance: {fileID: 1708772321}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f5f7a817895ce14699840361924c92a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &2090696975 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224942994365015876, guid: ab75501b6dcd53140be8ebd0c064b989,

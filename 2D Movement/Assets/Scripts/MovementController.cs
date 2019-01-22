@@ -15,8 +15,21 @@ public class MovementController : MonoBehaviour {
     private Vector3 pastPosition;
     private bool collided;
 
-	// Use this for initialization
-	void Start () {
+    public Vector3 FuturePosition
+    {
+        get
+        {
+            return futurePosition;
+        }
+
+        set
+        {
+            futurePosition = value;
+        }
+    }
+
+    // Use this for initialization
+    void Start () {
         futurePosition = transform.position;
         unitVectorMovementHorizontal = new Vector3(unitMovementHorizontal, 0, 0);
         unitVectorMovementVertical = new Vector3(0, unitMovementVertical, 0);
@@ -66,6 +79,42 @@ public class MovementController : MonoBehaviour {
         else
         {
             transform.position = Vector3.MoveTowards(transform.position, pastPosition, Time.deltaTime * speed);
+        }
+    }
+
+    public bool ReadyToMove()
+    {
+        if (transform.position == futurePosition)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void MoveBot(string direction)
+    {
+        if (ReadyToMove())
+        {
+            switch (direction)
+            {
+                case "fwd":
+                    futurePosition += unitVectorMovementVertical;
+                    break;
+                case "bck":
+                    futurePosition += (unitVectorMovementVertical * -1);
+                    break;
+                case "rght":
+                    futurePosition += unitVectorMovementHorizontal;
+                    break;
+                case "lft":
+                    futurePosition += (unitVectorMovementHorizontal * -1);
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
