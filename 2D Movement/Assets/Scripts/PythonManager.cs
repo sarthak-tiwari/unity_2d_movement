@@ -24,12 +24,10 @@ public class PythonManager : MonoBehaviour
 
             otherProcess.OutputDataReceived += new DataReceivedEventHandler((sender, e) =>
             {
-                // Prepend line numbers to each line of the output.
                 if (!String.IsNullOrEmpty(e.Data))
                 {
-                    commExec.addCommand(e.Data);
+                    commExec.AddCommand(e.Data);
                     chatController.AddCompilerOutput(e.Data);
-                    //output.Append("\n[" + lineCount + "]: " + e.Data);
                 }
             });
 

@@ -22,7 +22,8 @@ class CommandParser:
         parsed_result = ''
         for token in tokens:
             tokenInformation = TokenManager.getTokenInformation(token[0], token[1])
-            parsed_result += str(tokenInformation.token_translation) + ' '
+            if(tokenInformation.token_type != TokenType.UNDEFINED):
+                parsed_result += str(tokenInformation.token_translation) + ' '
 
         return parsed_result
         

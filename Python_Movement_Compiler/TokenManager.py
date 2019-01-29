@@ -34,6 +34,13 @@ class TokenManager:
         token_type = None
         token_translation = None
 
+        if(token.isnumeric()):
+            tokenInformation = TokenInformationData(token_type=TokenType.PARAMETER,
+                                                token_value=token,
+                                                token_translation=token)
+            return tokenInformation
+            
+
         try:
             # to be used when valid pos tags will be coming in future
             # dictionary_name = TokenManager.POS_TYPE_TO_SYSTEM_TYPE_DICTIONARY[tokenPOSType.upper()]

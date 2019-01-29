@@ -52,7 +52,7 @@ public class ChatController : MonoBehaviour {
 
         //var timeNow = System.DateTime.Now;
 
-        TMP_ChatOutput.text += ">> " + newText + "\n";
+        TMP_ChatOutput.text += "Exec: " + newText + "\n";
 
         //Don't uncomment, hangs the editor on run
         //TMP_ChatInput.ActivateInputField();
