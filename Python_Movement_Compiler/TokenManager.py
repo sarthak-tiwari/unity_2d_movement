@@ -2,6 +2,7 @@
 
 import collections
 from enum import Enum
+from Constants import DataType
 
 # defining return format for getTokenInformation method
 TokenInformationData = collections.namedtuple("TokenInformationData",
@@ -17,7 +18,7 @@ class TokenType(Enum):
 # main class TokenManager
 class TokenManager:
 
-    FUNCTION_DICTIONARY = { 'MOVE': 'move_bot' }
+    FUNCTION_DICTIONARY = { 'MOVE': 'move_bot', 'GO': 'move_bot' }
     DIRECTION_WORDS_DICTIONARY = { 'FORWARD': 'fwd', 'BACK': 'bck', 'LEFT': 'lft', 'RIGHT': 'rght'}
 
     DICTIONARY_NAMES = ['FUNCTION_DICTIONARY', 'DIRECTION_WORDS_DICTIONARY']
@@ -37,7 +38,7 @@ class TokenManager:
         if(token.isnumeric()):
             tokenInformation = TokenInformationData(token_type=TokenType.PARAMETER,
                                                 token_value=token,
-                                                token_translation=token)
+                                                token_translation=DataType.MAGNITUDE)
             return tokenInformation
             
 
@@ -62,19 +63,21 @@ class TokenManager:
 
             if(dictionary_name == 'FUNCTION_DICTIONARY'):
                 token_type = TokenType.FUNCTION
+                token_translation = None
             else:
                 token_type = TokenType.PARAMETER
+                token_translation = DataType.DIRECTION
 
 
             dictionary_to_use = getattr(TokenManager, dictionary_name)
 
             try:
-                token_translation = dictionary_to_use[token.upper()]
+                token_value = dictionary_to_use[token.upper()]
             except Exception:
                 token_translation = None
                 token_type = TokenType.UNDEFINED
 
             tokenInformation = TokenInformationData(token_type = token_type,
-                                                token_value = token,
+                                                token_value = token_value,
                                                 token_translation = token_translation)
         return tokenInformation

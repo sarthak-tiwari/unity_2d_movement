@@ -13,23 +13,59 @@ public class CommandExecutor : MonoBehaviour
         commandQueue.Add(command);
     }
 
+    private Dictionary<string, string> getParameterStack(string command)
+    {
+        Dictionary<string, string> parameterStack = new Dictionary<string, string>();
+        if(command[0] == '[')
+        {
+            string[] parameters = (command.Substring(1, command.IndexOf(']')-1)).Split(':');
+            foreach(string param in parameters){
+                if(param != " ")
+                {
+                    string datatype = param.Split(' ')[0].Trim();
+                    string value = param.Split(' ')[1].Trim();
+                    parameterStack.Add(datatype, value);
+                }
+            }
+        }
+        if (parameterStack.Count > 0)
+            return parameterStack;
+
+        return null;
+    }
+
+    private string getFunctionName(string command)
+    {
+        string functionName = command.Substring(command.IndexOf(']') + 2).Trim();
+
+        return functionName;
+    }
+
     private void ExecuteCommand()
     {
         if(commandQueue.Count != 0)
         {
             string command = (string)commandQueue[0];
-            string[] splittedCommand = command.Split(' ');
 
-            switch(splittedCommand[0])
+            string functionName = getFunctionName(command);
+            Dictionary<string, string> parameterStack = getParameterStack(command);
+
+            switch(functionName)
             {
                 case "move_bot":
                     if (movCon.ReadyToMove())
                     {
                         commandQueue.RemoveAt(0);
-                        if (splittedCommand.Length > 3)
-                            movCon.MoveBot(splittedCommand[1], System.Convert.ToInt32(splittedCommand[2]));
-                        else
-                            movCon.MoveBot(splittedCommand[1]);
+
+                        string paramDirection;
+                        string paramMagnitude = "1";
+
+                        if (parameterStack.TryGetValue("DIRECTION", out paramDirection))
+                        {
+                            parameterStack.TryGetValue("MAGNITUDE", out paramMagnitude);
+
+                            movCon.MoveBot(direction: paramDirection, magnitude: System.Convert.ToInt32(paramMagnitude));
+                        }
                     }
                     break;
 

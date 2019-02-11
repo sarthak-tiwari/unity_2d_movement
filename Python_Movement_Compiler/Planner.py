@@ -13,6 +13,6 @@ class Planner:
 
 # Main
 command = sys.argv[1]
-# command = 'move left'
+# command = 'move left 3 units'
 parsed_result = CommandParser.parseCommand(command)
 Planner.returnToUnity(parsed_result)

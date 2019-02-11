@@ -20,10 +20,22 @@ class CommandParser:
 
         tokens = CommandParser.posTagger(command)
         parsed_result = ''
+        parameter_stack = '['
+        function_stack = ''
+
         for token in tokens:
             tokenInformation = TokenManager.getTokenInformation(token[0], token[1])
-            if(tokenInformation.token_type != TokenType.UNDEFINED):
-                parsed_result += str(tokenInformation.token_translation) + ' '
+
+            if(tokenInformation.token_type == TokenType.PARAMETER):
+                parameter_stack += (str(tokenInformation.token_translation.name)
+                                    + " " + str(tokenInformation.token_value) + ":")
+            
+            if(tokenInformation.token_type == TokenType.FUNCTION):
+                function_stack = str(tokenInformation.token_value)
+
+        parameter_stack += " ]"
+
+        parsed_result = parameter_stack + ":" + function_stack
 
         return parsed_result
         
