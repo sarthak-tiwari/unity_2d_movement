@@ -11,13 +11,14 @@ public class MovementController : MonoBehaviour {
 
     private Vector3 unitVectorMovementHorizontal;
     private Vector3 unitVectorMovementVertical;
-    private Vector3 futurePosition;
     private Vector3 pastPosition;
     private bool collided;
 
-	// Use this for initialization
-	void Start () {
-        futurePosition = transform.position;
+    public Vector3 FuturePosition { get; set; }
+
+    // Use this for initialization
+    void Start () {
+        FuturePosition = transform.position;
         unitVectorMovementHorizontal = new Vector3(unitMovementHorizontal, 0, 0);
         unitVectorMovementVertical = new Vector3(0, unitMovementVertical, 0);
 	}
@@ -29,43 +30,83 @@ public class MovementController : MonoBehaviour {
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        futurePosition = pastPosition;
+        FuturePosition = pastPosition;
         collided = false;
     }
 
     void FixedUpdate () {
 
-        if(transform.position == futurePosition)
+        if(transform.position == FuturePosition)
         {
-            pastPosition = futurePosition;
+            pastPosition = FuturePosition;
             if (directControl)
             {
                 if (Input.GetKey(KeyCode.A))
                 {
-                    futurePosition += (unitVectorMovementHorizontal * -1);
+                    FuturePosition += (unitVectorMovementHorizontal * -1);
                 }
                 if (Input.GetKey(KeyCode.D))
                 {
-                    futurePosition += unitVectorMovementHorizontal;
+                    FuturePosition += unitVectorMovementHorizontal;
                 }
                 if (Input.GetKey(KeyCode.W))
                 {
-                    futurePosition += unitVectorMovementVertical;
+                    FuturePosition += unitVectorMovementVertical;
                 }
                 if (Input.GetKey(KeyCode.S))
                 {
-                    futurePosition += (unitVectorMovementVertical * -1);
+                    FuturePosition += (unitVectorMovementVertical * -1);
                 }
             }
         }
 
         if (!collided)
         {
-            transform.position = Vector3.MoveTowards(transform.position, futurePosition, Time.deltaTime * speed);
+            transform.position = Vector3.MoveTowards(transform.position, FuturePosition, Time.deltaTime * speed);
         }
         else
         {
             transform.position = Vector3.MoveTowards(transform.position, pastPosition, Time.deltaTime * speed);
+        }
+    }
+
+    public bool ReadyToMove()
+    {
+        if (transform.position == FuturePosition)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void MoveBot(string direction, int magnitude = 1)
+    {
+        if (ReadyToMove())
+        {
+            Vector3 directionToMove;
+            switch (direction)
+            {
+                case "fwd":
+                    directionToMove = unitVectorMovementVertical;
+                    break;
+                case "bck":
+                    directionToMove = (unitVectorMovementVertical * -1);
+                    break;
+                case "rght":
+                    directionToMove = unitVectorMovementHorizontal;
+                    break;
+                case "lft":
+                    directionToMove = (unitVectorMovementHorizontal * -1);
+                    break;
+                default:
+                    directionToMove = unitVectorMovementVertical;
+                    break;
+            }
+
+            FuturePosition += directionToMove * magnitude;
         }
     }
 }
