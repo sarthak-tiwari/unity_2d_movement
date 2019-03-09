@@ -1,3 +1,10 @@
+# Unity Meatadata
+metadata/
+*.meta
+StateCache/
+obj/
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 .vs/
