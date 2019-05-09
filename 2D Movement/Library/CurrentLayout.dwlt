@@ -113,7 +113,7 @@ MonoBehaviour:
   m_MinSize: {x: 583, y: 498}
   m_MaxSize: {x: 14004, y: 14048}
   vertical: 1
-  controlID: 6698
+  controlID: 1783
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -138,7 +138,7 @@ MonoBehaviour:
   m_MinSize: {x: 583, y: 498}
   m_MaxSize: {x: 14004, y: 14048}
   vertical: 0
-  controlID: 6699
+  controlID: 1784
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -163,7 +163,7 @@ MonoBehaviour:
   m_MinSize: {x: 306, y: 498}
   m_MaxSize: {x: 10002, y: 14048}
   vertical: 1
-  controlID: 6713
+  controlID: 1785
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -188,7 +188,7 @@ MonoBehaviour:
   m_MinSize: {x: 306, y: 224}
   m_MaxSize: {x: 8006, y: 4024}
   vertical: 0
-  controlID: 6714
+  controlID: 1786
 --- !u!114 &9
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -406,9 +406,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -61.099277, y: -4.134632, z: -0.40625}
+    m_Target: {x: -19.434105, y: -0.010772496, z: -0.47277504}
     speed: 2
-    m_Value: {x: -61.099277, y: -4.134632, z: -0.40625}
+    m_Value: {x: -19.434105, y: -0.010772496, z: -0.47277504}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -440,9 +440,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 115.28947
+    m_Target: 56.98017
     speed: 2
-    m_Value: 115.28947
+    m_Value: 56.98017
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -483,9 +483,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: cae8fffff2f6ffffd2f8fffff6f8ffff78f9ffff9cf9ffffd4fbffff
+      m_SelectedIDs: ae2d0000
+      m_LastClickedID: 11694
+      m_ExpandedIDs: 34f6ffff46f6ffff8cf7ffffd4fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -546,7 +546,8 @@ MonoBehaviour:
     m_SceneHandles: 
     m_ShowAllHits: 0
     m_SearchArea: 1
-    m_Folders: []
+    m_Folders:
+    - Assets/TextMesh Pro
   m_ViewMode: 0
   m_StartGridSize: 64
   m_LastFolders: []
@@ -558,7 +559,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: b6280000
     m_LastClickedID: 10422
-    m_ExpandedIDs: ffffffff000000008a0900009c090000b8090000d00900000c0a0000220a0000a20a0000e20a0000520b00007a2900007c2900007e29000080290000822900008429000086290000882900008a2900008c290000e62b0000
+    m_ExpandedIDs: ffffffff0000000092090000a4090000d80900002c0a0000840a0000b40a0000f40a00002c0b0000b6290000b8290000ba290000bc290000be290000c0290000c2290000c4290000c6290000c8290000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -586,7 +587,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: ffffffff000000008a0900009c090000b8090000d00900000c0a0000220a0000a20a0000e20a0000520b00007a2900007c2900007e29000080290000822900008429000086290000882900008a2900008c290000e62b0000
+    m_ExpandedIDs: ffffffff0000000092090000a4090000d80900002c0a0000840a0000b40a0000f40a00002c0b0000b6290000b8290000ba290000bc290000be290000c0290000c2290000c4290000c6290000c8290000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 

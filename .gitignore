@@ -3,7 +3,10 @@ metadata/
 *.meta
 StateCache/
 obj/
-
+Logs/
+*/Temp/
+AssetLoadingProject/
+*/Builds/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
