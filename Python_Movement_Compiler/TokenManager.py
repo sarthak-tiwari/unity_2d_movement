@@ -3,17 +3,11 @@
 import collections
 from enum import Enum
 from Constants import DataType
+from Constants import TokenType
 
 # defining return format for getTokenInformation method
 TokenInformationData = collections.namedtuple("TokenInformationData",
-                                              "token_type, token_value, token_translation")
-
-# declaring token_type valid values
-class TokenType(Enum):
-    FUNCTION = 'FUNCTION'
-    PARAMETER = 'PARAMETER'
-    UNDEFINED = 'UNDEFINED'
-
+                                              "token_type, token_value, token_translation, original_token")
 
 # main class TokenManager
 class TokenManager:
@@ -38,7 +32,8 @@ class TokenManager:
         if(token.isnumeric()):
             tokenInformation = TokenInformationData(token_type=TokenType.PARAMETER,
                                                 token_value=token,
-                                                token_translation=DataType.MAGNITUDE)
+                                                token_translation=DataType.MAGNITUDE,
+                                                original_token=token)
             return tokenInformation
             
 
@@ -58,7 +53,8 @@ class TokenManager:
         if(dictionary_name is None):
                     tokenInformation = TokenInformationData(token_type=TokenType.UNDEFINED,
                                                 token_value=token,
-                                                token_translation=None)
+                                                token_translation=None,
+                                                original_token=token)
         else:
 
             if(dictionary_name == 'FUNCTION_DICTIONARY'):
@@ -79,5 +75,6 @@ class TokenManager:
 
             tokenInformation = TokenInformationData(token_type = token_type,
                                                 token_value = token_value,
-                                                token_translation = token_translation)
+                                                token_translation = token_translation,
+                                                original_token=token)
         return tokenInformation

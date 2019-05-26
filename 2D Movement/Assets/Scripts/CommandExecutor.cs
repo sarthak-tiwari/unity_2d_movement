@@ -58,14 +58,15 @@ public class CommandExecutor : MonoBehaviour
                         commandQueue.RemoveAt(0);
 
                         string paramDirection;
-                        string paramMagnitude = "1";
+                        string paramMagnitude;
 
-                        if (parameterStack.TryGetValue("DIRECTION", out paramDirection))
-                        {
-                            parameterStack.TryGetValue("MAGNITUDE", out paramMagnitude);
+                        if (!(parameterStack.TryGetValue("DIRECTION", out paramDirection)))
+                            paramDirection = "";
+
+                        if (!(parameterStack.TryGetValue("MAGNITUDE", out paramMagnitude)))
+                            paramMagnitude = "1";
 
                             movCon.MoveBot(direction: paramDirection, magnitude: System.Convert.ToInt32(paramMagnitude));
-                        }
                     }
                     break;
 

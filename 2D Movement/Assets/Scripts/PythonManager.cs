@@ -13,6 +13,8 @@ public class PythonManager : MonoBehaviour
 
     public void testCompiler(string command)
     {
+        bool errorOccured = false;
+
         using (Process otherProcess = new Process())
         {
             otherProcess.StartInfo.FileName = "python";
@@ -26,7 +28,14 @@ public class PythonManager : MonoBehaviour
             {
                 if (!String.IsNullOrEmpty(e.Data))
                 {
-                    commExec.AddCommand(e.Data);
+                    if (e.Data.Substring(0, 6) == "ERROR:")
+                    {
+                        errorOccured = true;
+                    }
+
+                    if (!errorOccured)
+                        commExec.AddCommand(e.Data);
+
                     chatController.AddCompilerOutput(e.Data);
                 }
             });

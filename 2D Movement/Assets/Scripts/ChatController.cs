@@ -34,7 +34,7 @@ public class ChatController : MonoBehaviour {
 
         //var timeNow = System.DateTime.Now;
 
-        TMP_ChatOutput.text +=  ">> " + newText + "\n";
+        TMP_ChatOutput.text +=  "\n>> " + newText + "\n";
 
         TMP_ChatInput.ActivateInputField();
 

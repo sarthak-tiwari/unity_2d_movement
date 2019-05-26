@@ -1,3 +1,13 @@
+# Unity Meatadata
+metadata/
+*.meta
+StateCache/
+obj/
+Logs/
+*/Temp/
+AssetLoadingProject/
+*/Builds/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 .vs/
