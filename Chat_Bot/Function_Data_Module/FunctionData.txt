@@ -1,0 +1,11 @@
+move_bot:
+M:
+DIRECTION
+O:
+MAGNITUDE
+END:
+see_bot:
+M:
+DIRECTION
+O:
+END:
