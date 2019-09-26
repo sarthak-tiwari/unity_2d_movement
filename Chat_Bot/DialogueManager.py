@@ -1,3 +1,6 @@
+from Frame import Frame
+from Common.Constants import DataType
+
 # class to handle all dialogue related methods and properties
 class DialogueManager:
 
@@ -13,5 +16,10 @@ class DialogueManager:
     # Method to ask the user for missing entities
     def askUserForMissingInformation(self, frame):
 
-        #TODO: Ask the user for missing entities based on their type or grouping
-        print('Can you tell me something more ?')
+        missingEntities = frame.getMissingEntities()
+
+        for entity in missingEntities:
+            if (entity == DataType.DIRECTION):
+                print('Which way ?')
+            elif (entity == DataType.MAGNITUDE):
+                print('How much ?')

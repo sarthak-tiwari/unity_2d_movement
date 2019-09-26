@@ -6,10 +6,10 @@ from Common.Constants import TokenType
 
 class FunctionDataManager:
 
-    functionDict = {}
+    def __init__(self):
+        self.functionDict = {}
 
-    @staticmethod
-    def loadFunctionData():
+    def loadFunctionData(self):
 
         with open('D:\\Unity\\Chat_Bot\\Function_Data_Module\\FunctionData.txt', 'r') as functionDataFile:
             functionData = functionDataFile.read()
@@ -57,7 +57,7 @@ class FunctionDataManager:
                     lookingForFunctionName = True
                     parameters = {'MANDATORY':mandatoryParameters,
                                   'OPTIONAL': optionalParameters}
-                    FunctionDataManager.functionDict[functionName] = parameters
+                    self.functionDict[functionName] = parameters
                     functionName = ''
                     mandatoryParameters = []
                     optionalParameters = []
@@ -75,18 +75,38 @@ class FunctionDataManager:
         #    mP = (FunctionDataManager.functionDict[function])['MANDATORY']
         #    print("Mandatory Parameters: " + str(mP))
         #    print("Optional Parameters: " + str(FunctionDataManager.functionDict[function]['OPTIONAL']))
-            
 
-    @staticmethod
-    def checkMissingData(functionNames, parameterStack):
+    def getMandatoryParameters(self, functionName):
 
-        if(len(FunctionDataManager.functionDict) == 0):
-            FunctionDataManager.loadFunctionData()
+        if(len(self.functionDict) == 0):
+            raise Exception("Function Dictionary Not Loaded !")
+
+        if(functionName in self.functionDict):
+            return (self.functionDict[functionName])['MANDATORY']
+        else:
+            return None
+
+    def getOptionalParameters(self, functionName):
+
+        if(len(self.functionDict) == 0):
+            raise Exception("Function Dictionary Not Loaded !")
+
+        if(functionName in self.functionDict):
+            return (self.functionDict[functionName])['OPTIONAL']
+        else:
+            return None
+
+        
+
+    def checkMissingData(self, functionNames, parameterStack):
+
+        if(len(self.functionDict) == 0):
+            self.loadFunctionData()
 
         for functionName in functionNames:
-            if(functionName in FunctionDataManager.functionDict):
+            if(functionName in self.functionDict):
 
-                requiredParameterStack = FunctionDataManager.functionDict[functionName]
+                requiredParameterStack = self.functionDict[functionName]
                 requiredMandatoryParameters = requiredParameterStack['MANDATORY']
 
                 missingParameters = []
