@@ -16,12 +16,14 @@ public class CommandExecutor : MonoBehaviour
     private Dictionary<string, string> getParameterStack(string command)
     {
         Dictionary<string, string> parameterStack = new Dictionary<string, string>();
+        Debug.Log(command);
         if(command[0] == '[')
         {
             string[] parameters = (command.Substring(1, command.IndexOf(']')-1)).Split(':');
             foreach(string param in parameters){
-                if(param != " ")
+                if(param != "")
                 {
+                    Debug.Log("Param: \'" + param + "\'");
                     string datatype = param.Split(' ')[0].Trim();
                     string value = param.Split(' ')[1].Trim();
                     parameterStack.Add(datatype, value);

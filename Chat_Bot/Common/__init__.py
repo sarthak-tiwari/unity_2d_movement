@@ -1,1 +1,1 @@
-from Common.Constants import Constants
+from . import Constants

@@ -33,10 +33,10 @@ class Frame:
 
             self._checkCompleteness()
 
-        elif (newIntent == self.intent):
+        elif (newIntent == '' or newIntent == self.intent):
 
-                for (newEntity, newValue) in newEntities:
-                    self.entities[newEntity] = newValue
+                for newEntity in newEntities:
+                    self.entities[newEntity] = newEntities[newEntity]
 
                 self._checkCompleteness()
 
@@ -68,7 +68,7 @@ class Frame:
 
         #TODO: Creates an execution command based on the frame passed
 
-        commandHeader = 'EXEC: '
+        commandHeader = 'EXEC:'
         parameterStackStr = '['
 
         for entity in self.entities:

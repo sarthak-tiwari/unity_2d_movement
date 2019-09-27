@@ -19,7 +19,8 @@ class DialogueManager:
         missingEntities = frame.getMissingEntities()
 
         for entity in missingEntities:
-            if (entity == DataType.DIRECTION):
+            
+            if (DataType(entity) == DataType.DIRECTION):
                 print('Which way ?')
-            elif (entity == DataType.MAGNITUDE):
+            elif (DataType(entity) == DataType.MAGNITUDE):
                 print('How much ?')

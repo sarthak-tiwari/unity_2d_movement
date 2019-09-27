@@ -14,17 +14,21 @@ if __name__ == '__main__':
     fnctn_data_mngr = FunctionDataManager()
     fnctn_data_mngr.loadFunctionData()
 
-    dlg_mngr.showWelcomeMessage()
+    # dlg_mngr.showWelcomeMessage()
 
     while (True):
 
         text = input()
 
-        (intent, entities) = Intent_Entity_Extraction.get_intent_entity_from_server(text)
+        (intent, rawEntities) = Intent_Entity_Extraction.get_intent_entity_from_server(text)
 
-        print(intent)
-        print('--------')
-        print(entities)
+        entities = {}
+        for rawEntity in rawEntities:
+            entities[rawEntity['entity'].upper()] = rawEntity['value']
+
+        # print(intent)
+        # print('--------')
+        # print(entities)
 
         if (currentFrame is None):
             currentFrame = Frame(fnctn_data_mngr)
