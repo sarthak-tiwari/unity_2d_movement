@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 
-public class MovementController : MonoBehaviour {
+public class MovementController : MonoBehaviour
+{
 
     public float unitMovementHorizontal;
     public float unitMovementVertical;
@@ -15,11 +16,12 @@ public class MovementController : MonoBehaviour {
     public Vector3 FuturePosition { get; set; }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         FuturePosition = transform.position;
         unitVectorMovementHorizontal = new Vector3(unitMovementHorizontal, 0, 0);
         unitVectorMovementVertical = new Vector3(0, 0, unitMovementVertical);
-	}
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -32,9 +34,10 @@ public class MovementController : MonoBehaviour {
         collided = false;
     }
 
-    void FixedUpdate () {
+    void FixedUpdate()
+    {
 
-        if(transform.position == FuturePosition)
+        if (transform.position == FuturePosition)
         {
             pastPosition = FuturePosition;
             if (directControl)

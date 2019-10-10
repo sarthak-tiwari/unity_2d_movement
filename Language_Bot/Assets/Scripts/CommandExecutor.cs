@@ -7,7 +7,7 @@ public class CommandExecutor : MonoBehaviour
     public MovementController movCon;
 
     private ArrayList commandQueue = new ArrayList();
-    
+
     public void AddCommand(string command)
     {
         commandQueue.Add(command);
@@ -16,14 +16,14 @@ public class CommandExecutor : MonoBehaviour
     private Dictionary<string, string> getParameterStack(string command)
     {
         Dictionary<string, string> parameterStack = new Dictionary<string, string>();
-        Debug.Log(command);
-        if(command[0] == '[')
+
+        if (command[0] == '[')
         {
-            string[] parameters = (command.Substring(1, command.IndexOf(']')-1)).Split(':');
-            foreach(string param in parameters){
-                if(param != "")
+            string[] parameters = (command.Substring(1, command.IndexOf(']') - 1)).Split(':');
+            foreach (string param in parameters)
+            {
+                if (param != "")
                 {
-                    Debug.Log("Param: \'" + param + "\'");
                     string datatype = param.Split(' ')[0].Trim();
                     string value = param.Split(' ')[1].Trim();
                     parameterStack.Add(datatype, value);
@@ -45,14 +45,14 @@ public class CommandExecutor : MonoBehaviour
 
     private void ExecuteCommand()
     {
-        if(commandQueue.Count != 0)
+        if (commandQueue.Count != 0)
         {
             string command = (string)commandQueue[0];
 
             string functionName = getFunctionName(command);
             Dictionary<string, string> parameterStack = getParameterStack(command);
 
-            switch(functionName)
+            switch (functionName)
             {
                 case "move_bot":
                     if (movCon.ReadyToMove())
@@ -68,7 +68,7 @@ public class CommandExecutor : MonoBehaviour
                         if (!(parameterStack.TryGetValue("MAGNITUDE", out paramMagnitude)))
                             paramMagnitude = "1";
 
-                            movCon.MoveBot(direction: paramDirection, magnitude: System.Convert.ToInt32(paramMagnitude));
+                        movCon.MoveBot(direction: paramDirection, magnitude: System.Convert.ToInt32(paramMagnitude));
                     }
                     break;
 

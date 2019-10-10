@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using TMPro;
 
-public class ChatController : MonoBehaviour {
+public class ChatController : MonoBehaviour
+{
 
 
     public TMP_InputField TMP_ChatInput;
@@ -33,7 +33,7 @@ public class ChatController : MonoBehaviour {
 
         //var timeNow = System.DateTime.Now;
 
-        TMP_ChatOutput.text +=  "\n>> " + newText + "\n";
+        TMP_ChatOutput.text += "\n>> " + newText + "\n";
 
         TMP_ChatInput.ActivateInputField();
 
