@@ -690,8 +690,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitMovementHorizontal: 1
   unitMovementVertical: 1
-  speed: 2
-  directControl: 0
+  moveSpeed: 2
+  turnSpeed: 100
+  directControl: 1
 --- !u!54 &1814594427
 Rigidbody:
   m_ObjectHideFlags: 0

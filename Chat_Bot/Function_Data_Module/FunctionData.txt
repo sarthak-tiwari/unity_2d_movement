@@ -9,3 +9,8 @@ M:
 DIRECTION
 O:
 END:
+turn_bot:
+M:
+DIRECTION
+O:
+END:

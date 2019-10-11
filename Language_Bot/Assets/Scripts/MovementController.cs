@@ -2,25 +2,24 @@
 
 public class MovementController : MonoBehaviour
 {
-
     public float unitMovementHorizontal;
     public float unitMovementVertical;
-    public float speed;
+    public float moveSpeed;
+    public float turnSpeed;
     public bool directControl;
 
-    private Vector3 unitVectorMovementHorizontal;
-    private Vector3 unitVectorMovementVertical;
-    private Vector3 pastPosition;
+    private Vector3 pastMovementPosition;
+    private Quaternion pastTurnPosition;
     private bool collided;
 
-    public Vector3 FuturePosition { get; set; }
+    private Vector3 FutureMovementPosition { get; set; }
+    private Quaternion FutureTurnPosition { get; set; }
 
     // Use this for initialization
     void Start()
     {
-        FuturePosition = transform.position;
-        unitVectorMovementHorizontal = new Vector3(unitMovementHorizontal, 0, 0);
-        unitVectorMovementVertical = new Vector3(0, 0, unitMovementVertical);
+        FutureMovementPosition = transform.position;
+        FutureTurnPosition = transform.rotation;
     }
 
     void OnTriggerEnter(Collider other)
@@ -30,50 +29,86 @@ public class MovementController : MonoBehaviour
 
     private void OnTriggerExit(Collider collision)
     {
-        FuturePosition = pastPosition;
+        FutureMovementPosition = pastMovementPosition;
+        FutureTurnPosition = pastTurnPosition;
         collided = false;
     }
 
     void FixedUpdate()
     {
-
-        if (transform.position == FuturePosition)
+        if (transform.position == FutureMovementPosition)
         {
-            pastPosition = FuturePosition;
+            pastMovementPosition = FutureMovementPosition;
             if (directControl)
             {
                 if (Input.GetKey(KeyCode.A))
                 {
-                    FuturePosition += (unitVectorMovementHorizontal * -1);
+                    FutureMovementPosition += (transform.right * -1 * unitMovementHorizontal);
                 }
                 if (Input.GetKey(KeyCode.D))
                 {
-                    FuturePosition += unitVectorMovementHorizontal;
+                    FutureMovementPosition += transform.right * unitMovementHorizontal;
                 }
                 if (Input.GetKey(KeyCode.W))
                 {
-                    FuturePosition += unitVectorMovementVertical;
+                    FutureMovementPosition += transform.forward * unitMovementVertical;
                 }
                 if (Input.GetKey(KeyCode.S))
                 {
-                    FuturePosition += (unitVectorMovementVertical * -1);
+                    FutureMovementPosition += (transform.forward * -1 * unitMovementVertical);
+                }
+            }
+        }
+
+        if (transform.rotation == FutureTurnPosition)
+        {
+            pastTurnPosition = FutureTurnPosition;
+            if (directControl)
+            {
+                if(Input.GetKey(KeyCode.RightArrow))
+                {
+                    TurnBot("rght");
+                }
+                if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    TurnBot("lft");
                 }
             }
         }
 
         if (!collided)
         {
-            transform.position = Vector3.MoveTowards(transform.position, FuturePosition, Time.deltaTime * speed);
+            transform.position = Vector3.MoveTowards(transform.position, FutureMovementPosition, Time.deltaTime * moveSpeed);
+            if (ReadyToMove())
+            {
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, FutureTurnPosition, Time.deltaTime * turnSpeed);
+            }
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, pastPosition, Time.deltaTime * speed);
+            transform.position = Vector3.MoveTowards(transform.position, pastMovementPosition, Time.deltaTime * moveSpeed);
+            if (ReadyToMove())
+            {
+                transform.rotation = Quaternion.RotateTowards(transform.rotation, pastTurnPosition, Time.deltaTime * turnSpeed);
+            }
         }
     }
 
     public bool ReadyToMove()
     {
-        if (transform.position == FuturePosition)
+        if (transform.position == FutureMovementPosition)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool ReadyToTurn()
+    {
+        if (ReadyToMove() && transform.rotation == FutureTurnPosition)
         {
             return true;
         }
@@ -91,23 +126,52 @@ public class MovementController : MonoBehaviour
             switch (direction)
             {
                 case "fwd":
-                    directionToMove = unitVectorMovementVertical;
+                    directionToMove = transform.forward * unitMovementVertical;
                     break;
                 case "bck":
-                    directionToMove = (unitVectorMovementVertical * -1);
+                    directionToMove = (transform.forward * unitMovementVertical * -1);
                     break;
                 case "rght":
-                    directionToMove = unitVectorMovementHorizontal;
+                    directionToMove = transform.right * unitMovementHorizontal;
                     break;
                 case "lft":
-                    directionToMove = (unitVectorMovementHorizontal * -1);
+                    directionToMove = (transform.right * unitMovementHorizontal * -1);
                     break;
                 default:
-                    directionToMove = unitVectorMovementVertical;
+                    directionToMove = transform.forward * unitMovementVertical;
                     break;
             }
 
-            FuturePosition += directionToMove * magnitude;
+            FutureMovementPosition += directionToMove * magnitude;
+        }
+    }
+
+    public void TurnBot(string direction)
+    {
+        if (ReadyToTurn())
+        {
+            Debug.Log(direction);
+            Quaternion directionToTurn;
+            switch (direction)
+            {
+                case "fwd":
+                    directionToTurn = Quaternion.Euler(0,0,0);
+                    break;
+                case "bck":
+                    directionToTurn = Quaternion.Euler(0, 180, 0);
+                    break;
+                case "rght":
+                    directionToTurn = Quaternion.Euler(0, 90, 0);
+                    break;
+                case "lft":
+                    directionToTurn = Quaternion.Euler(0, -90, 0);
+                    break;
+                default:
+                    directionToTurn = Quaternion.Euler(0, 0, 0);
+                    break;
+            }
+
+            FutureTurnPosition *= directionToTurn;
         }
     }
 }

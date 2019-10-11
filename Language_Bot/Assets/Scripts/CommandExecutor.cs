@@ -72,6 +72,20 @@ public class CommandExecutor : MonoBehaviour
                     }
                     break;
 
+                case "turn_bot":
+                    if (movCon.ReadyToTurn())
+                    {
+                        commandQueue.RemoveAt(0);
+
+                        string paramDirection;
+
+                        if (!(parameterStack.TryGetValue("DIRECTION", out paramDirection)))
+                            paramDirection = "";
+
+                        movCon.TurnBot(direction: paramDirection);
+                    }
+                    break;
+
                 default:
                     commandQueue.RemoveAt(0);
                     break;
