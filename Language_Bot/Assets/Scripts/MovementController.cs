@@ -10,7 +10,11 @@ public class MovementController : MonoBehaviour
 
     private Vector3 pastMovementPosition;
     private Quaternion pastTurnPosition;
+
     private bool collided;
+
+    private bool carrying;
+    private Transform carriedObject;
 
     private Vector3 FutureMovementPosition { get; set; }
     private Quaternion FutureTurnPosition { get; set; }
@@ -36,11 +40,14 @@ public class MovementController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (transform.position == FutureMovementPosition)
+        if (ReadyToMoveOrTurn())
         {
             pastMovementPosition = FutureMovementPosition;
+            pastTurnPosition = FutureTurnPosition;
+
             if (directControl)
             {
+                #region MoveControls_WSAD
                 if (Input.GetKey(KeyCode.A))
                 {
                     FutureMovementPosition += (transform.right * -1 * unitMovementHorizontal);
@@ -57,70 +64,106 @@ public class MovementController : MonoBehaviour
                 {
                     FutureMovementPosition += (transform.forward * -1 * unitMovementVertical);
                 }
-            }
-        }
+                #endregion
 
-        if (transform.rotation == FutureTurnPosition)
-        {
-            pastTurnPosition = FutureTurnPosition;
-            if (directControl)
-            {
-                if(Input.GetKey(KeyCode.RightArrow))
-                {
-                    TurnBot("rght");
-                }
+                #region TurnControls_Arrows
                 if (Input.GetKey(KeyCode.LeftArrow))
                 {
                     TurnBot("lft");
                 }
+                if (Input.GetKey(KeyCode.RightArrow))
+                {
+                    TurnBot("rght");
+                }
+                if (Input.GetKey(KeyCode.DownArrow))
+                {
+                    TurnBot("bck");
+                }
+                #endregion
+
+                #region Action_Keys
+                if (Input.GetKey(KeyCode.Space))
+                {
+                    RaycastHit hit;
+                    // Does the ray intersect any objects excluding the player layer
+                    if (Physics.Raycast(transform.position, transform.forward, out hit, 6, 1, QueryTriggerInteraction.Collide))
+                    {
+                        if((((BoxController)hit.transform.gameObject.GetComponent("BoxController")).GetObjectColor() == "blue"))
+                        {
+                            Debug.DrawRay(transform.position, transform.forward * hit.distance, Color.blue, 2f);
+                        }
+                        else if ((((BoxController)hit.transform.gameObject.GetComponent("BoxController")).GetObjectColor() == "red"))
+                        {
+                            Debug.DrawRay(transform.position, transform.forward * hit.distance, Color.red, 2f);
+                        }
+                        Debug.Log("Did Hit");
+                    }
+                }
+
+                if (Input.GetKey(KeyCode.E))
+                {
+                    if (!carrying)
+                        PickObject();
+                }
+
+                if (Input.GetKey(KeyCode.R))
+                {
+                    if (carrying)
+                        DropObject();
+                }
+
+                #endregion
             }
         }
 
         if (!collided)
         {
-            transform.position = Vector3.MoveTowards(transform.position, FutureMovementPosition, Time.deltaTime * moveSpeed);
-            if (ReadyToMove())
+            if (NeedToMove())
+            {
+                transform.position = Vector3.MoveTowards(transform.position, FutureMovementPosition, Time.deltaTime * moveSpeed);
+
+                if (carrying)
+                    carriedObject.position = new Vector3(transform.position.x, transform.position.y + carriedObject.localScale.y + 1f, transform.position.z);
+            }
+            else if (NeedToTurn())
             {
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, FutureTurnPosition, Time.deltaTime * turnSpeed);
             }
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, pastMovementPosition, Time.deltaTime * moveSpeed);
-            if (ReadyToMove())
+            if (NeedToMove())
+            {
+                transform.position = Vector3.MoveTowards(transform.position, pastMovementPosition, Time.deltaTime * moveSpeed);
+
+                if (carrying)
+                    carriedObject.position = new Vector3(transform.position.x, transform.position.y + carriedObject.localScale.y + 1f, transform.position.z);
+            }
+            else if(NeedToTurn())
             {
                 transform.rotation = Quaternion.RotateTowards(transform.rotation, pastTurnPosition, Time.deltaTime * turnSpeed);
             }
         }
     }
 
-    public bool ReadyToMove()
+    public bool ReadyToMoveOrTurn()
     {
-        if (transform.position == FutureMovementPosition)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return (NeedToMove() || NeedToTurn()) ? false : true;
     }
 
-    public bool ReadyToTurn()
+    private bool NeedToMove()
     {
-        if (ReadyToMove() && transform.rotation == FutureTurnPosition)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return (transform.position == FutureMovementPosition) ? false : true;
+    }
+
+    private bool NeedToTurn()
+    {
+        return (transform.rotation == FutureTurnPosition) ? false : true;
     }
 
     public void MoveBot(string direction, int magnitude = 1)
     {
-        if (ReadyToMove())
+        if (ReadyToMoveOrTurn())
         {
             Vector3 directionToMove;
             switch (direction)
@@ -148,17 +191,16 @@ public class MovementController : MonoBehaviour
 
     public void TurnBot(string direction)
     {
-        if (ReadyToTurn())
+        if (ReadyToMoveOrTurn())
         {
-            Debug.Log(direction);
             Quaternion directionToTurn;
             switch (direction)
             {
-                case "fwd":
-                    directionToTurn = Quaternion.Euler(0,0,0);
-                    break;
+                //case "fwd":
+                //    directionToTurn = Quaternion.Euler(0,360,0);
+                //    break;
                 case "bck":
-                    directionToTurn = Quaternion.Euler(0, 180, 0);
+                    directionToTurn = Quaternion.Euler(0, 180f, 0);
                     break;
                 case "rght":
                     directionToTurn = Quaternion.Euler(0, 90, 0);
@@ -167,11 +209,63 @@ public class MovementController : MonoBehaviour
                     directionToTurn = Quaternion.Euler(0, -90, 0);
                     break;
                 default:
-                    directionToTurn = Quaternion.Euler(0, 0, 0);
+                    directionToTurn = Quaternion.identity;
                     break;
             }
 
-            FutureTurnPosition *= directionToTurn;
+            FutureTurnPosition = directionToTurn * transform.rotation;
         }
+    }
+
+    public bool PickObject()
+    {
+
+        if (carrying)
+            return false;
+
+        Transform objectToMove;
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, transform.forward, out hit, 1, 1, QueryTriggerInteraction.Collide))
+        {
+            if (hit.transform.gameObject.CompareTag("Box"))
+            {
+                objectToMove = hit.transform;
+                // add check for boolean can be moved
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
+
+        objectToMove.position = new Vector3(transform.position.x, transform.position.y + objectToMove.localScale.y + 1f, transform.position.z);
+        carriedObject = objectToMove;
+        carrying = true;
+        return true;
+    }
+
+    public bool DropObject()
+    {
+        if(carrying)
+        {
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, transform.forward, out hit, 2, 1, QueryTriggerInteraction.Collide))
+            {
+                return false;
+            }
+
+            carriedObject.position = transform.position + transform.forward + new Vector3(0, 0.75f, 0); // use object height here
+
+            carriedObject = null;
+            carrying = false;
+            return true;
+        }
+
+        return false;
     }
 }

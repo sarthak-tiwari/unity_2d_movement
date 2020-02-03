@@ -55,7 +55,7 @@ public class CommandExecutor : MonoBehaviour
             switch (functionName)
             {
                 case "move_bot":
-                    if (movCon.ReadyToMove())
+                    if (movCon.ReadyToMoveOrTurn())
                     {
                         commandQueue.RemoveAt(0);
 
@@ -73,7 +73,7 @@ public class CommandExecutor : MonoBehaviour
                     break;
 
                 case "turn_bot":
-                    if (movCon.ReadyToTurn())
+                    if (movCon.ReadyToMoveOrTurn())
                     {
                         commandQueue.RemoveAt(0);
 
